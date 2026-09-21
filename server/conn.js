@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors()); 
 app.use(express.json());
 
 // Global error handling
@@ -22,7 +22,9 @@ const PORT = process.env.PORT
 
 app.set('port', PORT || 3001);
 
-const uri = `mongodb+srv://sambroise_db_user:${process.env.MONGODB_PW}@unfoldingpathsprayerwal.k6eqjcr.mongodb.net/?appName=UnfoldingPathsPrayerWall`;
+
+
+const uri = `mongodb+srv://sambroise_db_user:T1g3r5123@unfoldingpathsprayerwal.k6eqjcr.mongodb.net/?appName=UnfoldingPathsPrayerWall`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -33,11 +35,13 @@ const client = new MongoClient(uri, {
   }
 });
 
+console.log(process.env.MONGODB_PW)
+
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    let database = await client.db("sample_mflix");
+    let database = await client.db("Prayers");
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     app.get('/', async (req, res, err) => {
@@ -65,8 +69,8 @@ async function run() {
 
 
   } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
+    //Ensures that the client will close when you finish/error
+    await client.close();
   }
 }
 
