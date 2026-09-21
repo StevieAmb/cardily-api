@@ -37,13 +37,13 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    let database = await client.db("Prayers");
+    let database = await client.db("sample_mflix");
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     app.get('/', async (req, res, err) => {
       try {
         console.log('Received request:', req.body);
-        let collection = await database.collection("PrayersMade");
+        let collection = await database.collection("AddressBookKeepers");
         let result = await collection.find().toArray();
         res.json(result)
       } catch(err) {
