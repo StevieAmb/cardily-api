@@ -84,3 +84,11 @@ run().catch(console.dir);
 //check their idea, so there needs to be an if statement that checks if their id
 //exists (in the post method) and if it does, it just needs to push the data into the 
 //array. Outside of the if statement, it posts the ID and the array of info.
+
+//Does it need to iterate through every customer in the collection to find
+//the ID? So there needs to be an iterator method. Maybe a .find() iterator
+//To find the ID, and then if it's true, then push the data into the occasion array
+
+
+//The get request needs to take in the ID, too, so it knows which one to get? Or it gets all of them
+//And then the filtering happens on the front end?
