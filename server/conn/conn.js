@@ -57,6 +57,7 @@ async function run() {
       let collection = await database.collection("AddressBookKeepers");
       let result = await collection.insertOne(req.body);
       res.send(result)
+      console.log(result)
     })
 
     app.listen(app.get('port'), () => {
