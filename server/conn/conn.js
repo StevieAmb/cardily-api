@@ -71,24 +71,3 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-
-//PSEUDOCODE
-
-//The post request takes in the customer ID, and then posts the data with that
-//customer ID. When the user wants to add something to their address book, the
-//API needs to... find the user's customer ID, and then update the ARRAY section
-//of the data. Match the ID to one in the database, and then update
-//the array. So the user is connected to the DB, and they made one post.
-//They go to post again... If they go to post again, the post method needs to
-//check their idea, so there needs to be an if statement that checks if their id
-//exists (in the post method) and if it does, it just needs to push the data into the 
-//array. Outside of the if statement, it posts the ID and the array of info.
-
-//Does it need to iterate through every customer in the collection to find
-//the ID? So there needs to be an iterator method. Maybe a .find() iterator
-//To find the ID, and then if it's true, then push the data into the occasion array
-
-
-//The get request needs to take in the ID, too, so it knows which one to get? Or it gets all of them
-//And then the filtering happens on the front end?
