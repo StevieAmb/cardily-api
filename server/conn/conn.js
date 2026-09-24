@@ -54,6 +54,7 @@ async function run() {
 
     app.post('/occasions/:id', async (req, res) => {
       console.log('Received request:', req.body);
+      console.log(req.params.id)
       let collection = await database.collection("AddressBookKeepers");
       let result = await collection.insertOne(req.body);
       res.send(result)
