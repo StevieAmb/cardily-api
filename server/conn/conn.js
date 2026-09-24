@@ -54,9 +54,18 @@ async function run() {
 
     app.post('/occasions/:id', async (req, res) => {
       console.log('Received request:', req.body);
-      console.log(req.params.id)
+      let id = req.params.id
+      let result;
       let collection = await database.collection("AddressBookKeepers");
-      let result = await collection.insertOne(req.body);
+      let presentOccasions = await collection.find().toArray();
+      let matchingUser = presentOccasions.find(occasion => occasion.id === id)
+      if(matchingUser) {
+        return result = await collection.updateOne({id: id}, {$push: {occasions:  req.body}})
+        console.log(matchingUser)
+      } else {
+        return result = await collection.insertOne({id: id, occasions:[req.body]});
+      }
+   
       res.send(result)
     })
 
