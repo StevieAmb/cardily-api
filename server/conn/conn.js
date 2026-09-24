@@ -40,7 +40,7 @@ async function run() {
     let database = await client.db("Prayers");
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-    app.get('/', async (req, res, err) => {
+    app.get('/:id', async (req, res, err) => {
       try {
         console.log('Received request:', req.body);
         let collection = await database.collection("AddressBookKeepers");
@@ -52,7 +52,7 @@ async function run() {
       }
     })
 
-    app.post('/occasions', async (req, res) => {
+    app.post('/occasions/:id', async (req, res) => {
       console.log('Received request:', req.body);
       let collection = await database.collection("AddressBookKeepers");
       let result = await collection.insertOne(req.body);
