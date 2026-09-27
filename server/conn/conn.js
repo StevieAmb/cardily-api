@@ -64,7 +64,7 @@ async function run() {
       let presentOccasions = await collection.find().toArray();
       let matchingUser = presentOccasions.find(occasion => occasion.id === req.params.id)
       if(matchingUser) {
-        return result = await collection.updateOne({id: id}, {$push: {occasions:  req.body}})
+        return result = await collection.updateOne({id: req.params.id}, {$push: {occasions:  req.body}})
         console.log(matchingUser)
       } else {
         return result = await collection.insertOne({id: req.params.id, occasions:[req.body]});
