@@ -45,7 +45,12 @@ async function run() {
         console.log('Received request:', req.body);
         let collection = await database.collection("AddressBookKeepers");
         let result = await collection.find().toArray();
-        res.json(result)
+        let matchingUser = result.find(occasion => occasion.id === req.params.id)
+        if(matchingUser) {
+          res.json(matchingUser.occasions)
+        } else {
+          res.send('I am not able to find your saved occasions.')
+        }
       } catch(err) {
         console.error('Error fetching data:', err);
         res.status(500).send('Internal Server Error');
