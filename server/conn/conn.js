@@ -57,24 +57,6 @@ async function run() {
       }
     })
 
-    // app.patch('/:id', async (req, res, err) => {
-    //   try {
-    //     console.log('Received request:', req.body);
-    //   let collection = await database.collection("AddressBookKeepers");
-    //   let presentOccasions = await collection.find().toArray();
-    //   let matchingUser = presentOccasions.find(occasion => occasion.id === req.params.id)
-    //   if(matchingUser) {
-    //      console.log('Found matching user:', req.body.occasion, req.params.id);
-    //     return result = await collection.updateOne({id: req.params.id}, {$pull: {occasions: { occasion: req.body.occasion}}}, false, true)
-    //   } else {
-    //     res.send('Unable to remove')
-    //   }
-    //   } catch(err) {
-    //     console.error('Error patching data:', err);
-    //     res.status(500).send('Internal Server Error');
-    //   }
-    //   res.send(result)
-    // })
 
     app.patch('/:id', async (req, res) => {
       try {
