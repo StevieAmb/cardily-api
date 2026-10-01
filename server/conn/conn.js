@@ -57,15 +57,31 @@ async function run() {
       }
     })
 
+    app.patch('/:id', async (req, res, err) => {
+      try {
+        console.log('Received request:', req.body);
+      let collection = await database.collection("AddressBookKeepers");
+      let presentOccasions = await collection.find().toArray();
+      let matchingUser = presentOccasions.find(occasion => occasion.id === req.params.id)
+      if(matchingUser) {
+         console.log('Found matching user:', req.body.occasion, req.params.id);
+        return result = await collection.updateOne({id: req.params.id}, {$pull: {occasions: { occasion: req.body}}}, false, true)
+      } else {
+        res.send('Unable to remove')
+      }
+      } catch(err) {
+        console.error('Error patching data:', err);
+        res.status(500).send('Internal Server Error');
+      }
+      res.send(result)
+    })
+
     app.post('/occasions/:id', async (req, res) => {
-      console.log('Received request:', req.body);
-      console.log('Request body occasions', req.body.occasions)
       let collection = await database.collection("AddressBookKeepers");
       let presentOccasions = await collection.find().toArray();
       let matchingUser = presentOccasions.find(occasion => occasion.id === req.params.id)
       if(matchingUser) {
         return result = await collection.updateOne({id: req.params.id}, {$push: {occasions:  req.body}})
-        console.log(matchingUser)
       } else {
         return result = await collection.insertOne({id: req.params.id, occasions:[req.body]});
       }
