@@ -65,7 +65,7 @@ async function run() {
       let matchingUser = presentOccasions.find(occasion => occasion.id === req.params.id)
       if(matchingUser) {
          console.log('Found matching user:', req.body.occasion, req.params.id);
-        return result = await collection.updateOne({id: req.params.id}, {$pull: {occasions: { occasion: req.body}}}, false, true)
+        return result = await collection.updateOne({id: req.params.id}, {$pull: {occasions: { occasion: req.body.occasion}}}, false, true)
       } else {
         res.send('Unable to remove')
       }
