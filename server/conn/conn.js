@@ -38,6 +38,8 @@ const client = new MongoClient(uri, {
 
 async function run() {
   
+
+  //This function verifies the Shopify signature
   export function verifyShopifyAppProxy(req, res, next) {
     // Use the raw query string so duplicate parameters (like extra=1&extra=2)
     // are preserved. In Express, req.originalUrl includes the query string.
@@ -138,6 +140,23 @@ async function run() {
         return result = await collection.updateOne({id: req.params.id}, {$push: {occasions:  req.body}})
       } else {
         return result = await collection.insertOne({id: req.params.id, occasions:[req.body]});
+      }
+   
+      res.send(result)
+    })
+
+    app.post('api/proxy/occasions', async (req, res) => {
+      let customerID = req.query.logged_in_customer_id
+      let occasion = req.body
+
+
+      let collection = await database.collection("AddressBookKeepers");
+      let presentOccasions = await collection.find().toArray();
+      let matchingUser = presentOccasions.find(occasion => occasion.id === customerID)
+      if(matchingUser) {
+        return result = await collection.updateOne({id: customerID}, {$push: {occasions:  req.body}})
+      } else {
+        return result = await collection.insertOne({id: customerID, occasions:[req.body]});
       }
    
       res.send(result)
