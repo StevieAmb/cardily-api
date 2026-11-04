@@ -145,10 +145,9 @@ async function run() {
       res.send(result)
     })
 
-    app.post('api/proxy/occasions', async (req, res) => {
+    app.post('api/proxy/occasions', verifyShopifyAppProxy, async (req, res) => {
       let customerID = req.query.logged_in_customer_id
       let occasion = req.body
-
 
       let collection = await database.collection("AddressBookKeepers");
       let presentOccasions = await collection.find().toArray();
