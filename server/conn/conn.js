@@ -37,6 +37,52 @@ const client = new MongoClient(uri, {
 });
 
 async function run() {
+  
+  export function verifyShopifyAppProxy(req, res, next) {
+    // Use the raw query string so duplicate parameters (like extra=1&extra=2)
+    // are preserved. In Express, req.originalUrl includes the query string.
+    const queryString = req.originalUrl.split("?")[1] ?? "";
+    const params = new URLSearchParams(queryString);
+
+    const signature = params.get("signature");
+    if (!signature || !SHOPIFY_API_SECRET) {
+      return res.status(403).send("Invalid Shopify signature");
+    }
+
+    params.delete("signature");
+
+      // Group repeated keys, sort keys, join repeated values with commas,
+      // then concatenate key=value pairs without separators.
+      const grouped = new Map();
+      for (const [key, value] of params) {
+        if (!grouped.has(key)) grouped.set(key, []);
+        grouped.get(key).push(value);
+      }
+
+      const message = [...grouped.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, values]) => `${key}=${values.join(",")}`)
+        .join("");
+
+      const calculated = crypto
+        .createHmac("sha256", SHOPIFY_API_SECRET)
+        .update(message)
+        .digest("hex");
+
+      // Compare safely, including when lengths differ.
+      const suppliedBuffer = Buffer.from(signature, "hex");
+      const calculatedBuffer = Buffer.from(calculated, "hex");
+
+      if (
+        suppliedBuffer.length !== calculatedBuffer.length ||
+        !crypto.timingSafeEqual(suppliedBuffer, calculatedBuffer)
+      ) {
+        return res.status(403).send("Invalid Shopify signature");
+      }
+
+      next();
+    }
+
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
