@@ -21,6 +21,7 @@ app.use(function (err, req, res, next) {
 });
 
 const PORT = process.env.PORT
+const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET
 console.log()
 
 app.set('port', PORT || 3001);
@@ -108,7 +109,7 @@ async function run() {
       }
     })
 
-    app.get('api/proxy', async (req, res, err) => {
+    app.get('api/proxy', verifyShopifyAppProxy, async (req, res, err) => {
       let customerID = req.query.logged_in_customer_id
       let occasion = req.body
 
