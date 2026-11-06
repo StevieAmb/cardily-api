@@ -41,7 +41,7 @@ async function run() {
   
 
   //This function verifies the Shopify signature
-  export function verifyShopifyAppProxy(req, res, next) {
+  const verifyShopifyAppProxy = (req, res, next) => {
     // Use the raw query string so duplicate parameters (like extra=1&extra=2)
     // are preserved. In Express, req.originalUrl includes the query string.
     const queryString = req.originalUrl.split("?")[1] ?? "";
